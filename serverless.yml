@@ -22,7 +22,7 @@ functions:
           path: shorten
           method: post
           cors:
-            origin: 'https://main.d3s5lmvnk8532y.amplifyapp.com/'
+            origin: 'https://main.d3s5lmvnk8532y.amplifyapp.com'
   getUrl:
     handler: handler.getUrl
     events:
@@ -30,7 +30,7 @@ functions:
           path: /{shortId}
           method: get
           cors:
-            origin: 'https://main.d3s5lmvnk8532y.amplifyapp.com/'
+            origin: 'https://main.d3s5lmvnk8532y.amplifyapp.com'
 
 resources:
   Resources:
