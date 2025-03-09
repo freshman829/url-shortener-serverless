@@ -1,0 +1,47 @@
+service: url-shortener
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-2
+  environment:
+    TABLE_NAME: UrlTable
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+        - dynamoDB:GetItem
+      Resource:
+        - arn:aws:dynamodb:us-east-2:*:table/UrlTable 
+
+functions:
+  createUrl:
+    handler: handler.createUrl
+    events:
+      - http:
+          path: shorten
+          method: post
+          cors:
+            origin: 'https://main.d3s5lmvnk8532y.amplifyapp.com/'
+  getUrl:
+    handler: handler.getUrl
+    events:
+      - http:
+          path: /{shortId}
+          method: get
+          cors:
+            origin: 'https://main.d3s5lmvnk8532y.amplifyapp.com/'
+
+resources:
+  Resources:
+    UrlTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UrlTable
+        AttributeDefinitions:
+          - AttributeName: shortId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: shortId
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
