@@ -1,18 +1,18 @@
-service: url-shortener
+service: url-shortener-${sls:stage}
 
 provider:
   name: aws
   runtime: nodejs18.x
   region: us-east-2
   environment:
-    TABLE_NAME: UrlTable
+    TABLE_NAME: UrlTable-${sls:stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
         - dynamodb:PutItem
         - dynamoDB:GetItem
       Resource:
-        - arn:aws:dynamodb:us-east-2:*:table/UrlTable 
+        - arn:aws:dynamodb:us-east-2:*:table/UrlTable-${sls:stage}
 
 functions:
   createUrl:
@@ -37,7 +37,7 @@ resources:
     UrlTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: UrlTable
+        TableName: UrlTable-${sls:stage}
         AttributeDefinitions:
           - AttributeName: shortId
             AttributeType: S
